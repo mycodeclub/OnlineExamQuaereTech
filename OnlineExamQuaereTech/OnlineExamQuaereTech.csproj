@@ -18,6 +18,12 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\Student\Data\" />
+    <Folder Include="Areas\Student\Models\" />
+    <Folder Include="Areas\SuperAdmin\Data\" />
+    <Folder Include="Areas\SuperAdmin\Models\" />
+  </ItemGroup>
 
 
 </Project>

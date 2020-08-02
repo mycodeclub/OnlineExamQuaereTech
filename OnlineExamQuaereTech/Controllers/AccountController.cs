@@ -15,7 +15,7 @@ namespace OnlineExamQuaereTech.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly AppDbContext _context;
 
-        public AccountController(UserManager<AppUser> userManager,SignInManager<AppUser> signInManager,AppDbContext context)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -84,10 +84,22 @@ namespace OnlineExamQuaereTech.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            var logedInUserId = _userManager.GetUserId(HttpContext.User);
+            if (logedInUserId != null)
+            {
+                var user = await _userManager.FindByIdAsync(logedInUserId);
+                var role = await _userManager.GetRolesAsync(user);
+                if (role.Contains("SuperAdmin"))
+                    return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
+                else if (role.Contains("Student"))
+                    return RedirectToAction("Index", "Home", new { Area = "Student" });
+            }
 
-            return View();
+
+            return View(new Login() { LoginName = "admin@as.com", Password = "Admin@01" }); // setup Admin Login 
+             
         }
 
         [HttpPost]
@@ -102,7 +114,7 @@ namespace OnlineExamQuaereTech.Controllers
                     var role = await _userManager.GetRolesAsync(user);
                     if (role.Contains("SuperAdmin"))
                         return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
-                    else if (role.Contains("AssessmentBody"))
+                    else if (role.Contains("Student"))
                         return RedirectToAction("Index", "Home", new { Area = "Student" });
                     else
                         return RedirectToAction("Index", "Home");
