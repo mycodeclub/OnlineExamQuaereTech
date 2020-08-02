@@ -15,7 +15,7 @@ namespace OnlineExamQuaereTech.Models
         public string AssessmentBodyOrganiztionName { get; set; }
 
         [Display(Name = "Mobile No.")]
-        [Required(ErrorMessage = "Phone Number Required!")]
+       // [Required(ErrorMessage = "Phone Number Required!")]
         [StringLength(10, MinimumLength = 10)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
         public override string PhoneNumber { get; set; }
