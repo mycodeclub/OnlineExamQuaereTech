@@ -1,4 +1,4 @@
-﻿
+﻿@model List<StudentExamination>
 @{
     Layout = null;
     OnlineExamQuaereTech.Models.Student students = ViewBag.Students;
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <style>
-       
+
         .center {
             display: block;
             margin-left: auto;
@@ -85,7 +85,7 @@
         </div>
         <div class="col-2">
             <div class="row QuestionNumberCircles">
-                @for (int i = 1; i <= questions.Count; i++)
+                @for (int i = 1; i <= Model.Count; i++)
                 {
                     var id = "Circle_" + @i;
                     <div href="#" onclick="Exam.ChangeQuestion(@i)" id="@id" class="QuestionNumberCircle unViewed col-2 text-white text-bold" style="">@i </div>
@@ -94,13 +94,14 @@
         </div>
 
         <div class="col-10">
-            @foreach (var q in questions)
+            @foreach (var q in Model)
             {
+                q.Question = questions.Where(qu => qu.UniqueId == q.QuestionId).FirstOrDefault();
                 count = count + 1;
                 var ReviewCheckBoxId = "ReviewCheckBox" + @count;
-                <div class="card questions border border-primary" QuestionId="@q.UniqueId" id="@count">
+                <div class="card questions border border-primary" QuestionId="@q.Question.UniqueId" id="@count">
                     <div class="card-header">
-                        <p> <strong>Question @count: </strong>@q.QuestionText </p>
+                        <p> <strong>Question @count: </strong>@q.Question.QuestionText </p>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -111,19 +112,10 @@
                                 </div>
 
                             </div>
-                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" AnsUniqueId=@q.UniqueId onclick="Examination.SelectOption(this,@count,1)">
-                                <p> @q.Option1</p>
-                            </div>
-                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" AnsUniqueId=@q.UniqueId onclick="Examination.SelectOption(this,@count,1)">
-                                <p> @q.Option1</p>
-                            </div>
-                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" AnsUniqueId=@q.UniqueId onclick="Examination.SelectOption(this,@count,1)">
-                                <p> @q.Option1</p>
-                            </div>
-                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" AnsUniqueId=@q.UniqueId onclick="Examination.SelectOption(this,@count,1)">
-                                <p> @q.Option1</p>
-                            </div>
-
+                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" UniqueId="@q.UniqueId" QuestionId="@q.QuestionId" onclick="Exam.SelectOption(this,@count,1)"><p> @q.Question.Option1</p></div>
+                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" UniqueId="@q.UniqueId" QuestionId="@q.QuestionId" onclick="Exam.SelectOption(this,@count,2)"><p> @q.Question.Option2</p></div>
+                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" UniqueId="@q.UniqueId" QuestionId="@q.QuestionId" onclick="Exam.SelectOption(this,@count,3)"><p> @q.Question.Option3</p></div>
+                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" UniqueId="@q.UniqueId" QuestionId="@q.QuestionId" onclick="Exam.SelectOption(this,@count,4)"><p> @q.Question.Option4</p></div>
                         </div>
                     </div>
                     <div class="card-footer">

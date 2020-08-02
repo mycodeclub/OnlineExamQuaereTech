@@ -18,5 +18,7 @@ namespace OnlineExamQuaereTech.Models
         public int QuestionId { get; set; }
         public int CurrectOption { get; set; }
         public int SelectedOption { get; set; }
+        [NotMapped]
+        public Question Question { get; set; }
     }
 }

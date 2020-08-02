@@ -33,16 +33,32 @@ namespace OnlineExamQuaereTech.Areas.Student.Controllers
         }
 
         // GET: HomeController/Details/5
-        public ActionResult  ProceedExam()
+        public async Task<ActionResult> ProceedExam()
         {
             var userId = Guid.Parse(_userManager.GetUserId(HttpContext.User));
-            var students = _context.Students.Where(s => s.StudentUserId.Equals(userId)).FirstOrDefault();
-            var questions =   _context.Questions.ToList();
-
-
-            ViewBag.Students = students;
+            var student = _context.Students.Where(s => s.StudentUserId.Equals(userId)).FirstOrDefault();
+            var questions = _context.Questions.ToList();
+            var stuExams = _context.StuExams.Where(se => se.StudentId == student.UniqueId).ToList();
+            if (stuExams == null || stuExams.Count == 0)
+            {
+                stuExams = new List<StudentExamination>() { };
+                foreach (var q in questions)
+                {
+                    var stuExam = new StudentExamination()
+                    {
+                        QuestionId = q.UniqueId,
+                        StudentId = student.UniqueId,
+                        CurrectOption = q.CurrectOption,
+                        SelectedOption = 0,
+                    };
+                    stuExams.Add(stuExam);
+                    _context.StuExams.Add(stuExam);
+                }
+            }
+            await _context.SaveChangesAsync();
+            ViewBag.Students = student;
             ViewBag.Questions = questions;
-            return View();
+            return View(stuExams);
         }
 
 

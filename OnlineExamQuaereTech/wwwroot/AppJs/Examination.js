@@ -37,29 +37,37 @@
 
     },
     SelectOption: function (thisObj, QuestionCount, selectedOption) {
+        debugger;
+        var studentExamination =
+        {
+            "uniqueId": $(thisObj).attr("UniqueId"),
+            // "studentId": 0,
+            "questionId": $(thisObj).attr("QuestionId"),
+            //"currectOption": 0,
+            "selectedOption": selectedOption,
 
-        var selectedOption = {
-            "uniqueId": $(thisObj).attr("AnsUniqueId"),
-            "assessmentBodyId": $('#AssessmentBodyId').val(),
-            "examId": $('#ExamId').val(),
-            "studentId": $('#StudentId').val(),
-            "QId": $(thisObj).attr("qId"),
-            "isAttempted": true,
-            "SelectedOption": selectedOption
-        };
+        }
 
         $.ajax({
             type: "POST",
-            url: '/Examination/ProceedExam/UpdateStudentSelectionOption/',
-            data: selectedOption,
+            accepts: "text/plain",
+            // url: 'api/StudentExaminations', //PostStudentExamination
+            url: 'https://localhost:44302/api/StudentExaminations', //
+            data: JSON.stringify( studentExamination),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             cache: false,
+            async: false,
             success: function (data) {
-                if (data == true) {
-                    $('#Circle_' + QuestionCount).removeClass("bg-primary").addClass("attempted");
-                    $(thisObj).siblings().attr('style', '');
-                    $(thisObj).attr('style', 'background-color: aqua');
-                    $('#ReviewCheckBox' + QuestionCount).show();
-                }
+                $('#Circle_' + QuestionCount).removeClass("bg-primary").addClass("attempted");
+                $(thisObj).siblings().attr('style', '');
+                $(thisObj).attr('style', 'background-color: aqua');
+                $('#ReviewCheckBox' + QuestionCount).show();
+            }, failure: function (response) {
+                debugger;
+            },
+            error: function (response) {
+                debugger;
             }
         });
     },
