@@ -1,0 +1,225 @@
+﻿
+@{
+    Layout = null;
+    OnlineExamQuaereTech.Models.Student students = ViewBag.Students;
+    List<OnlineExamQuaereTech.Models.Question> questions = ViewBag.Questions;
+    int count = 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> BPST Online Exam </title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        @@font-face {
+            font-family: 'HindiFont_KrutiDev010';
+            src: url('/fonts/kruti_dev_010.ttf') format('truetype');
+        }
+
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hindiFont { /* Assign the font*/
+            font-family: HindiFont_KrutiDev010;
+            font-size: !important large;
+        }
+
+        .unViewed {
+            background-color: slategray;
+        }
+
+        .unattempted {
+            background-color: red;
+        }
+
+        .attempted {
+            background-color: lawngreen;
+        }
+
+        .attempted {
+            background-color: lawngreen;
+        }
+
+        .markedForReview {
+            background-color: yellow;
+        }
+
+        .QuestionNumberCircle {
+            border-radius: 100%;
+            /* background: #64685f; */
+            cursor: pointer;
+        }
+
+            .QuestionNumberCircle:hover {
+                background-color: darkblue;
+            }
+
+        .option:hover {
+            cursor: pointer;
+            background-color: lightcyan;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">        </nav>
+    </header>
+    <input type="hidden" asp-for="@students.UniqueId" />
+
+
+
+    <div class="row" style="margin:1em;">
+        <input type="hidden" QuestionId="0" QuestionCount="1" id="currentQuestion" />
+        <div class="col-12">
+
+
+            <h4 class="text-center fa-align-center alert alert-primary text-center"><strong> Online Exam  Portal By  Quaere Tech </strong>    </h4>
+
+            <table class="float-right">
+                <tr><th>Start Date Time:</th><td> @System.DateTime.Now </td></tr>
+            </table>
+        </div>
+        <div class="col-2">
+            <div class="row QuestionNumberCircles">
+                @for (int i = 1; i <= questions.Count; i++)
+                {
+                    var id = "Circle_" + @i;
+                    <div href="#" onclick="Exam.ChangeQuestion(@i)" id="@id" class="QuestionNumberCircle unViewed col-2 text-white text-bold" style="">@i </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-10">
+            @foreach (var q in questions)
+            {
+                count = count + 1;
+                var ReviewCheckBoxId = "ReviewCheckBox" + @count;
+                <div class="card questions border border-primary" QuestionId="@q.UniqueId" id="@count">
+                    <div class="card-header">
+                        <p> <strong>Question @count: </strong>@q.QuestionText </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="@ReviewCheckBoxId" style="display: none;" class="form-check float-right">
+                                    <input type="checkbox" class="form-check-input" onclick="Examination.MarkedQuestionForReview(this,@count)">
+                                    <label class="form-check-label" for="exampleCheck1">Mark For Review </label>
+                                </div>
+
+                            </div>
+                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" AnsUniqueId=@q.UniqueId onclick="Examination.SelectOption(this,@count,1)">
+                                <p> @q.Option1</p>
+                            </div>
+                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" AnsUniqueId=@q.UniqueId onclick="Examination.SelectOption(this,@count,1)">
+                                <p> @q.Option1</p>
+                            </div>
+                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" AnsUniqueId=@q.UniqueId onclick="Examination.SelectOption(this,@count,1)">
+                                <p> @q.Option1</p>
+                            </div>
+                            <div class="option col-sm-12 col-md-6 border border-secondary mt-2" AnsUniqueId=@q.UniqueId onclick="Examination.SelectOption(this,@count,1)">
+                                <p> @q.Option1</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <input type="button" class="btn btn-primary float-left" id="btn_Previous" onclick="Exam.ChangeQuestion(@(count-1))" value="Previous" />
+                        <input type="button" class="btn btn-primary float-right" id="btn_Next" onclick="Exam.ChangeQuestion(@(count+1))" value="Next" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container text-center">
+            &copy; 2020 - OnlineExam Powered By  
+                                                <a href="https://github.com/mycodeclub" target="_blank"> Ankit Sahay (Git: MyCodeClub)</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('.questions').hide();
+            $('.questions#1').show();
+            $('#Circle_1').addClass("bg-primary");
+
+        });
+    </script>
+    <script src="~/AppJs/ExaminationExecution.js"></script>
+    <script>
+        document.documentElement.requestFullscreen();
+
+
+        //function toggleFullScreen() {
+        //    if (!document.fullscreenElement &&    // alternative standard method
+        //        !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {  // current working methods
+        //        if (document.documentElement.requestFullscreen) {
+        //            document.documentElement.requestFullscreen();
+        //        } else if (document.documentElement.msRequestFullscreen) {
+        //            document.documentElement.msRequestFullscreen();
+        //        } else if (document.documentElement.mozRequestFullScreen) {
+        //            document.documentElement.mozRequestFullScreen();
+        //        } else if (document.documentElement.webkitRequestFullscreen) {
+        //            document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        //        }
+        //    } else {
+        //        if (document.exitFullscreen) {
+        //            document.exitFullscreen();
+        //        } else if (document.msExitFullscreen) {
+        //            document.msExitFullscreen();
+        //        } else if (document.mozCancelFullScreen) {
+        //            document.mozCancelFullScreen();
+        //        } else if (document.webkitExitFullscreen) {
+        //            document.webkitExitFullscreen();
+        //        }
+        //    }
+        //}
+
+        $(document).ready(function () {
+            GetFullScreenElement();
+            //$('body').bind('cut copy paste', function (e) {
+            //    e.preventDefault();
+            //})
+
+
+            //$('body').on('contextmenu', function (e) {
+            //    return false;
+            //});
+
+
+        });
+
+        function GetFullScreenElement() {
+            return document.fullscreenElement ||
+                document.webkitExitFullscreen ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement;
+        }
+
+
+    </script>
+    //--------------------------------------------------------------------------------
+
+    <script src="~/AppJs/Examination.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            Exam.GetQuestions();
+        });
+    </script>
+</body>
+</html>
+

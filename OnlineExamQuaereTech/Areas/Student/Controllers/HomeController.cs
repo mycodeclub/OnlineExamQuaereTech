@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using OnlineExamQuaereTech.Data;
+using OnlineExamQuaereTech.Models;
 
 namespace OnlineExamQuaereTech.Areas.Student.Controllers
 {
@@ -12,6 +15,17 @@ namespace OnlineExamQuaereTech.Areas.Student.Controllers
     [Authorize(Roles = "Student")]
     public class HomeController : Controller
     {
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly AppDbContext _context;
+
+        public HomeController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, AppDbContext context)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _context = context;
+        }
+
         // GET: HomeController
         public ActionResult Index()
         {
@@ -19,8 +33,14 @@ namespace OnlineExamQuaereTech.Areas.Student.Controllers
         }
 
         // GET: HomeController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult  ProceedExam()
         {
+            var userId = Guid.Parse(_userManager.GetUserId(HttpContext.User));
+            var students = _context.Students.Where(s => s.StudentUserId.Equals(userId)).FirstOrDefault();
+            var questions =   _context.Questions.ToList();
+
+            ViewBag.Students = students;
+            ViewBag.Questions = questions;
             return View();
         }
 
@@ -86,5 +106,8 @@ namespace OnlineExamQuaereTech.Areas.Student.Controllers
                 return View();
             }
         }
+
+        // ---
+
     }
 }

@@ -52,9 +52,8 @@ namespace OnlineExamQuaereTech.Models
         public bool IsActive { get; set; }
 
 
-        public string? StudentUserId { get; set; }
-        [ForeignKey("StudentUserId")]
-        public AppUser User { get; set; }
+        public Guid  StudentUserId { get; set; }
+   
 
 
     }

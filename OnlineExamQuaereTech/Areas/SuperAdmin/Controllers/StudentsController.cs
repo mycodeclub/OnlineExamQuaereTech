@@ -29,7 +29,7 @@ namespace OnlineExamQuaereTech.Areas.SuperAdmin.Controllers
         // GET: SuperAdmin/Students
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Students.Include(s => s.Batch).Include(s => s.User);
+            var appDbContext = _context.Students.Include(s => s.Batch);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -42,8 +42,7 @@ namespace OnlineExamQuaereTech.Areas.SuperAdmin.Controllers
             }
 
             var student = await _context.Students
-                .Include(s => s.Batch)
-                .Include(s => s.User)
+                .Include(s => s.Batch) 
                 .FirstOrDefaultAsync(m => m.UniqueId == id);
             if (student == null)
             {
@@ -86,6 +85,7 @@ namespace OnlineExamQuaereTech.Areas.SuperAdmin.Controllers
                 if (result.Succeeded)
                 {
                     var result2 = await _userManager.AddToRoleAsync(appUser, "STUDENT");
+                    student.StudentUserId = Guid.Parse(appUser.Id);
                 }
                 else
                 {
@@ -169,8 +169,7 @@ namespace OnlineExamQuaereTech.Areas.SuperAdmin.Controllers
             }
 
             var student = await _context.Students
-                .Include(s => s.Batch)
-                .Include(s => s.User)
+                .Include(s => s.Batch) 
                 .FirstOrDefaultAsync(m => m.UniqueId == id);
             if (student == null)
             {
