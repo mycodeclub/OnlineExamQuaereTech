@@ -1,0 +1,67 @@
+﻿@model List<StudentExamination>
+@{
+
+    ViewData["Title"] = "ShowMyResult";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+
+    OnlineExamQuaereTech.Models.Student students = ViewBag.Students;
+    List<OnlineExamQuaereTech.Models.Question> questions = ViewBag.Questions;
+    int count = 0;
+    var correctAnswers = Model.Where(a => a.CurrectOption == a.SelectedOption).Count();
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="modal-header bg-light text-center"><h1>Examination Result</h1></div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-6">
+                    <table class="table table-hover">
+                        <tr><th> Student Name </th><td> @students.Name</td></tr>
+                        <tr><th> Father Name </th><td> @students.FatherName</td></tr>
+                        <tr><th> MobileNo </th><td> @students.MobileNo</td></tr>
+                        <tr><th> Email </th><td> @students.Email</td></tr>
+                        <tr><th> Total Questions </th><td> @questions.Count</td></tr>
+                        <tr><th> correctAnswers </th><td> @correctAnswers</td></tr>
+
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th> Question Number</th>
+                                <th> Currect Option </th>
+                                <th> Your Selected Option  </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                count = (count + 1);
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@item.CurrectOption </td>
+                                    @if (item.CurrectOption == item.SelectedOption)
+                                    {
+                                        <td class="bg-success">@item.SelectedOption </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="bg-danger text-white">@item.SelectedOption </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer  bg-light"></div>
+    </div>
+</div>
+
+
+
+
+

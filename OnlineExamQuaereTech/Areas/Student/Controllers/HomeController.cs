@@ -61,7 +61,16 @@ namespace OnlineExamQuaereTech.Areas.Student.Controllers
             return View(stuExams);
         }
 
-
+        public ActionResult ShowMyResult() // Student id
+        {
+            var userId = Guid.Parse(_userManager.GetUserId(HttpContext.User));
+            var student = _context.Students.Where(s => s.StudentUserId.Equals(userId)).FirstOrDefault();
+            var questions = _context.Questions.ToList();
+            var stuExams = _context.StuExams.Where(se => se.StudentId == student.UniqueId).ToList();
+            ViewBag.Students = student;
+            ViewBag.Questions = questions;
+            return View(stuExams);
+        }
 
         // GET: HomeController/Create
         public ActionResult Create()

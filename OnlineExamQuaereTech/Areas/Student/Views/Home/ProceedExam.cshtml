@@ -69,18 +69,13 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">        </nav>
     </header>
     <input type="hidden" asp-for="@students.UniqueId" />
-
-
-
     <div class="row" style="margin:1em;">
         <input type="hidden" QuestionId="0" QuestionCount="1" id="currentQuestion" />
         <div class="col-12">
-
-
             <h4 class="text-center fa-align-center alert alert-primary text-center"><strong> Online Exam  Portal By  Quaere Tech </strong>    </h4>
-
             <table class="float-right">
                 <tr><th>Start Date Time:</th><td> @System.DateTime.Now </td></tr>
+                <tr> <th class="text-right"></th> </tr>
             </table>
         </div>
         <div class="col-2">
@@ -92,7 +87,6 @@
                 }
             </div>
         </div>
-
         <div class="col-10">
             @foreach (var q in Model)
             {
@@ -110,7 +104,6 @@
                                     <input type="checkbox" class="form-check-input" onclick="Examination.MarkedQuestionForReview(this,@count)">
                                     <label class="form-check-label" for="exampleCheck1">Mark For Review </label>
                                 </div>
-
                             </div>
                             <div class="option col-sm-12 col-md-6 border border-secondary mt-2" UniqueId="@q.UniqueId" QuestionId="@q.QuestionId" onclick="Exam.SelectOption(this,@count,1)"><p> @q.Question.Option1</p></div>
                             <div class="option col-sm-12 col-md-6 border border-secondary mt-2" UniqueId="@q.UniqueId" QuestionId="@q.QuestionId" onclick="Exam.SelectOption(this,@count,2)"><p> @q.Question.Option2</p></div>
@@ -125,6 +118,9 @@
                 </div>
             }
         </div>
+        <div class="col-12 text-center p-5">
+            <a target="_blank" href="/Student/Home/ShowMyResult/" class="btn btn-success">Submit Exam & Show Result</a>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -138,7 +134,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
-
         $(document).ready(function () {
             $('.questions').hide();
             $('.questions#1').show();
@@ -149,45 +144,8 @@
     <script src="~/AppJs/ExaminationExecution.js"></script>
     <script>
         document.documentElement.requestFullscreen();
-
-
-        //function toggleFullScreen() {
-        //    if (!document.fullscreenElement &&    // alternative standard method
-        //        !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {  // current working methods
-        //        if (document.documentElement.requestFullscreen) {
-        //            document.documentElement.requestFullscreen();
-        //        } else if (document.documentElement.msRequestFullscreen) {
-        //            document.documentElement.msRequestFullscreen();
-        //        } else if (document.documentElement.mozRequestFullScreen) {
-        //            document.documentElement.mozRequestFullScreen();
-        //        } else if (document.documentElement.webkitRequestFullscreen) {
-        //            document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-        //        }
-        //    } else {
-        //        if (document.exitFullscreen) {
-        //            document.exitFullscreen();
-        //        } else if (document.msExitFullscreen) {
-        //            document.msExitFullscreen();
-        //        } else if (document.mozCancelFullScreen) {
-        //            document.mozCancelFullScreen();
-        //        } else if (document.webkitExitFullscreen) {
-        //            document.webkitExitFullscreen();
-        //        }
-        //    }
-        //}
-
         $(document).ready(function () {
             GetFullScreenElement();
-            //$('body').bind('cut copy paste', function (e) {
-            //    e.preventDefault();
-            //})
-
-
-            //$('body').on('contextmenu', function (e) {
-            //    return false;
-            //});
-
-
         });
 
         function GetFullScreenElement() {
@@ -196,18 +154,8 @@
                 document.mozFullScreenElement ||
                 document.msFullscreenElement;
         }
-
-
     </script>
-    //--------------------------------------------------------------------------------
-
     <script src="~/AppJs/Examination.js"></script>
-    <script>
-        $(document).ready(function () {
-
-            Exam.GetQuestions();
-        });
-    </script>
 </body>
 </html>
 
