@@ -39,10 +39,13 @@ namespace OnlineExamQuaereTech.Areas.Student.Controllers
             var students = _context.Students.Where(s => s.StudentUserId.Equals(userId)).FirstOrDefault();
             var questions =   _context.Questions.ToList();
 
+
             ViewBag.Students = students;
             ViewBag.Questions = questions;
             return View();
         }
+
+
 
         // GET: HomeController/Create
         public ActionResult Create()

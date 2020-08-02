@@ -20,5 +20,6 @@ namespace OnlineExamQuaereTech.Data
         public DbSet<Batch> Batches { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Question> Questions { get; set; }
+        public DbSet<StudentExamination> StuExams { get; set; }
     }
 }

@@ -38,7 +38,10 @@ namespace OnlineExamQuaereTech.Models
         [Display(Name = "CurrectOption")]
         public int CurrectOption { get; set; }
 
-        
+        [NotMapped] // Used on examination screen to capture student Input  (Student Answer for this question.)
+        public int SelectedOption { get; set; }
+
+
 
         public bool IsActive { get; set; }
     }
