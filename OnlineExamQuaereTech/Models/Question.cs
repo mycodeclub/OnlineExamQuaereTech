@@ -34,7 +34,12 @@ namespace OnlineExamQuaereTech.Models
         [Display(Name = "Option4")]
         public string Option4 { get; set; }
 
-  
+        [Required(ErrorMessage = "Currect Option")]
+        [Display(Name = "CurrectOption")]
+        public int CurrectOption { get; set; }
+
+        
+
         public bool IsActive { get; set; }
     }
 }

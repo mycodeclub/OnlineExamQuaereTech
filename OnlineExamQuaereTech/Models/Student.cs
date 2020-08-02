@@ -18,7 +18,7 @@ namespace OnlineExamQuaereTech.Models
         public int BatchId { get; set; }
 
         [ForeignKey("BatchId")]
-        [Required]
+     
         public Batch Batch { get; set; }
 
         [Required]

@@ -98,7 +98,7 @@ namespace OnlineExamQuaereTech.Controllers
             }
 
 
-            return View(new Login() { LoginName = "admin@as.com", Password = "Admin@01" }); // setup Admin Login 
+            return View(new Login() { LoginName = "admin@qt.com", Password = "Admin@01" }); // setup Admin Login 
              
         }
 
@@ -120,8 +120,7 @@ namespace OnlineExamQuaereTech.Controllers
                         return RedirectToAction("Index", "Home");
                 }
                 else { ModelState.AddModelError("", "Invalid Email Id or Password"); }
-            }
-            ViewBag.ActiveTabId = 4;
+            } 
             return View(model);
         }
 

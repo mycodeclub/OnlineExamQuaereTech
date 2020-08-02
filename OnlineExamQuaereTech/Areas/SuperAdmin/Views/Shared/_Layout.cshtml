@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - OnlineExamQuaereTech</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    @RenderSection("Style", required: false)
 </head>
 <body>
     <header>
@@ -19,13 +21,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Batches</a>
+                            <a class="nav-link text-dark" asp-area="SuperAdmin" asp-controller="Batches" asp-action="Index">Batches</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Students</a>
+                            <a class="nav-link text-dark" asp-area="SuperAdmin" asp-controller="Students" asp-action="Index">Students</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Questions</a>
+                            <a class="nav-link text-dark" asp-area="SuperAdmin" asp-controller="Questions" asp-action="Index">Questions</a>
                         </li>
                        
                     </ul>  
